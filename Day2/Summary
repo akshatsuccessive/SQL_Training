@@ -1,0 +1,11 @@
+On the day2 of the SQL training, the topics which I cover is :-
+1. Insert data into table, how to delete a record in a table and how to update a recored
+2. Alter the column : adding a new column, modify the column and deleting a column
+3. Drop and truncate the table. What is the difference between truncate and delete
+4. Select and Where clause
+5. Operators in Sql: Arithmetic, logical, comparison, bitwise operators
+6. Limit clause
+7. Order by clause
+8. String functions
+9. Aggregate function
+10. Group by and having clause
