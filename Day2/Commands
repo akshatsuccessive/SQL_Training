@@ -1,0 +1,84 @@
+-- Create a table
+Create Table tbl_Students
+(
+	StdId int identity(1,1),
+	first_name varchar(50),
+	last_name varchar(50),
+	age int,
+	phone bigint,
+	city varchar(50)
+)
+
+select * from tbl_Students
+
+-- insert into table
+Insert Into tbl_Students (first_name, last_name, age, phone, city)
+Values ('Akshat', 'Kumar', 21, 9090909090, 'Delhi'),
+('Govind', 'sharma', 22, 9003200018, 'Noida'),
+('Yash', 'Behl', 20, 9329001737, 'Delhi'),
+('Ajay', 'Bohra', 22, 9732661789, 'Delhi'),
+('Utkarsh', 'srivastav', 21, 9376384399, 'Noida'),
+('Prince', 'Kumar', 23, 8931989939, 'Greater Noida')
+
+-- deleting a recored from table
+Delete From tbl_Students Where StdId = 6
+
+-- updating a existing row
+Update tbl_Students set age = 24 Where first_name = 'Govind'
+
+--EXEC sp_rename 'tbl_Student', 'tbl_Students'
+
+-- adding a column in table
+Alter Table tbl_Students 
+Add Gender char(1)
+Update tbl_Students set Gender = 'M'
+
+-- modify the column 
+Alter Table tbl_Students
+Alter Column Gender varchar(10)
+
+-- Drop column 
+Alter Table tbl_Students
+Drop Column Gender
+
+
+-- Select statments
+Select Distinct city from tbl_Students
+Select first_name from tbl_Students
+Select first_name, last_name from tbl_Students Where age >= 21 and city = 'Delhi'
+
+
+
+-- limit clause		
+Select * from tbl_Students limit 2
+
+-- order by clause
+Select Top(2)* from tbl_Students Order by age desc
+
+
+
+-- string functions
+Select upper(first_name) from tbl_Students
+Select len(first_name) from tbl_Students
+Select getutcdate()
+
+Select SUBSTRING(first_name, 1, 3) from tbl_Students
+Select concat(first_name, last_name) from tbl_Students
+Select replace('Akshat', 'a', 'm')
+--Select format(1234567, '######')
+Select trim('     Akshat    ') 
+
+
+
+-- aggregate function
+Select distinct count(city) from tbl_Students
+Select sum(age) from tbl_Students
+Select max(age) from tbl_Students
+Select min(age) from tbl_Students
+Select avg(age) from tbl_Students
+
+
+-- group by and having clause
+Select city, count(city) from tbl_Students Group by city
+
+Select age, count(city) from tbl_Students Group by city having count(city) > 2
