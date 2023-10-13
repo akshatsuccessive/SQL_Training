@@ -1,0 +1,58 @@
+Create Table tbl_students2 (
+	id int primary key identity(1,1),
+	admission_no varchar(20) NOT NULL,
+	first_name varchar(20) NOT NULL,
+	last_name varchar(20) NOT NULL,
+	age int NOT NULL,
+	city varchar(20) NOT NULL
+)
+Create Table tbl_fees (
+	admission_no varchar(20) NOT NULL,
+	course_name varchar(20) NOT NULL,
+	fees int NOT NULL
+)
+
+Select * from tbl_students2
+Select * from tbl_fees
+
+INSERT INTO tbl_students2       
+VALUES (3354,'Luisa', 'Evans', 13, 'Texas'),       
+(2135, 'Paul', 'Ward', 15, 'Alaska'),       
+(4321, 'Peter', 'Bennett', 14, 'California'),    
+(4213,'Carlos', 'Patterson', 17, 'New York'),       
+(5112, 'Rose', 'Huges', 16, 'Florida'),  
+(6113, 'Marielia', 'Simmons', 15, 'Arizona'),    
+(7555,'Antonio', 'Butler', 14, 'New York'),       
+(8345, 'Diego', 'Cox', 13, 'California');  
+
+INSERT INTO tbl_fees     
+VALUES (3354,'Java', 20000),       
+(7555, 'Android', 22000),       
+(4321, 'Python', 18000),    
+(8345,'SQL', 15000),       
+(5112, 'Machine Learning', 30000);  
+
+
+-- self join (n * n)
+select * from tbl_students2 t1, tbl_students2 t2
+select * from tbl_students2 t1, tbl_students2 t2 where t1.admission_no = t2.admission_no
+
+-- inner join (minimum among two tables)
+select * from tbl_students2 t1
+inner join tbl_fees t2
+on t1.admission_no = t2.admission_no
+
+-- left join 
+select * from tbl_students2 t1
+left join tbl_fees t2
+on t1.admission_no = t2.admission_no
+
+-- right join 
+select * from tbl_students2 t1
+right join tbl_fees t2
+on t1.admission_no = t2.admission_no
+
+-- cross join (n * m)
+select * from tbl_students2 t1
+cross join tbl_fees t2
+where t1.admission_no = t2.admission_no
