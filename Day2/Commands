@@ -79,6 +79,10 @@ Select avg(age) from tbl_Students
 
 
 -- group by and having clause
-Select city, count(city) from tbl_Students Group by city
+Select distinct city from tbl_Students
 
-Select age, count(city) from tbl_Students Group by city having count(city) > 2
+Select city from tbl_Students group by city
+
+Select city, count(city) from tbl_Students group by city
+
+Select city, count(city) from tbl_Students group by city having count(city) > 2
