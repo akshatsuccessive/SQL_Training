@@ -1,0 +1,219 @@
+use Test_Employee
+
+create table tbl_Employees (
+	Emp_Id int identity(1,1) primary key,
+	First_name varchar(20),
+	Last_name varchar(20),
+	DepartmentID int
+)
+
+create table tbl_Departments (
+	DepartmentID int identity(1,1) primary key,
+	DepartmentName varchar(20)
+)
+
+create table tbl_orders (
+	OrderId int identity(1,1) primary key,
+	CustomerId int,
+	OrderDate DATETIME
+)
+
+create table tbl_OrderDetails(
+	OrderDetailsID int identity(1,1) primary key,
+	OrderId int,
+	ProductID int,
+	Quantity int
+)
+
+create table tbl_Products(
+	Product_ID int identity(1,1) primary key,
+	Product_Name varchar(50),
+	UnitPrice int
+)	
+
+-- insertion in table
+insert into tbl_Employees 
+values
+('Akshat', 'Kumar', 1),
+('Govind', 'Sharma', 2),
+('Ajay', 'Bohra', 3),
+('Utkarsh', 'Srivatsav', 4),
+('Yash', 'Behl', 1),
+('Prince', 'Kumar', 2)
+
+insert into tbl_Departments 
+values
+('DotNet'), ('PHP'), ('Python'), ('Nodejs')
+
+insert into tbl_Departments values ('Java')
+
+
+insert into tbl_orders
+values
+(1, current_timestamp),
+(5, current_timestamp),
+(7, current_timestamp),
+(3, current_timestamp)
+
+
+insert into tbl_OrderDetails
+values
+(1, 4, 20),
+(4, 10, 50),
+(2, 12, 10),
+(5, 2, 90),
+(3, 1, 100),
+(6, 20, 50)
+
+insert into tbl_Products
+values
+('Mobile', 12000),
+('Laptop', 75000),
+('Keyboard', 1500),
+('Mouse', 500),
+('Headphone', 2500),
+('Bottle', 100)
+
+
+select * from tbl_Employees
+select * from tbl_orders
+select * from tbl_Departments
+select * from tbl_OrderDetails
+select * from tbl_Products
+
+
+-- 1. Retrieve the first and last names of all employees.
+select First_name, Last_name from tbl_Employees
+
+
+-- 2. Find the total number of employees in each department.
+select D.DepartmentName, count(E.DepartmentID)
+from tbl_Employees as E
+inner join tbl_Departments as D
+on D.DepartmentID = E.DepartmentID
+group by D.DepartmentName
+
+
+-- 3. List the names of departments that have no employees.
+select DepartmentID, DepartmentName from tbl_Departments where DepartmentID not in (select DepartmentID from tbl_Employees)
+
+
+-- 4. Retrieve the details of the employee with the highest `EmployeeID`.
+select top(1)* from tbl_Employees order by Emp_Id desc
+
+
+-- 5. Calculate the average quantity of products ordered in the `OrderDetails` table.
+select avg(Quantity) from tbl_OrderDetails
+
+
+-- 6. List the names of employees who have placed orders.
+select first_name, last_name from tbl_Employees
+inner join
+tbl_orders
+on Emp_Id = CustomerId 
+
+	
+-- 7. Find the total number of orders placed in each year.
+select year(OrderDate), count(OrderId) from tbl_orders group by year(OrderDate)
+
+
+-- 8. Retrieve the product names that have never been ordered.
+select Product_Name from tbl_Products where Product_ID not in(select ProductID from tbl_OrderDetails)
+
+
+-- 9. List the employees who have the same first name as their department.
+select * from tbl_Employees as E
+inner join
+tbl_Departments as D
+on 
+E.First_name = D.DepartmentName
+
+
+-- 10. Calculate the total price of products sold in each order.
+select P.Product_Name,P.UnitPrice,OD.Quantity,P.UnitPrice*OD.Quantity As TOTAL
+from tbl_Products as P
+inner join tbl_OrderDetails as OD
+on P.Product_ID = OD.ProductID
+
+
+-- 11. Find the customer who placed the largest total value of orders.
+select top(1) E.First_name, E.Last_name, (P.UnitPrice * OD.Quantity) as total
+from tbl_Products as P
+inner join tbl_OrderDetails as OD on OD.ProductID = P.Product_ID
+inner join tbl_orders as O on O.OrderId = OD.OrderId
+inner join tbl_Employees as E on E.Emp_Id = O.CustomerId
+order by total desc 
+
+
+-- 12. Retrieve the employee with the highest total quantity of products ordered.
+select top(1) E.first_name, E.last_name, OD.Quantity as highest
+from tbl_OrderDetails as OD
+inner join tbl_orders as O on OD.OrderId = O.OrderId
+inner join tbl_Employees as E on E.Emp_Id = O.CustomerId
+order by highest desc
+
+
+-- 13. List the departments with more than five employees.
+select D.DepartmentName, count(E.Emp_Id)
+from tbl_Departments as D
+inner join 
+tbl_Employees as E
+on 
+D.DepartmentID = E.DepartmentID
+group by D.DepartmentName
+having count(E.Emp_Id) >= 5
+
+
+-- 14. Calculate the average unit price of products in each department.
+select D.DepartmentName , avg(P.UnitPrice) as avg_price 
+from tbl_Departments D
+inner join tbl_Employees E ON  E.DepartmentID = D.DepartmentID
+inner join tbl_orders O ON E.Emp_Id = O.CustomerId
+inner join tbl_OrderDetails OD ON OD.OrderId = O.OrderId
+inner join tbl_Products P ON P.Product_ID = OD.ProductID 
+group by D.DepartmentName;
+
+
+-- 15. Retrieve the order with the highest total price.
+select top(1) OD.OrderId, P.Product_Name, OD.Quantity * P.UnitPrice as total
+from tbl_Products as P
+inner join
+tbl_OrderDetails as OD
+on OD.ProductID = P.Product_ID
+order by total desc
+
+-- 16. List the employees who have not placed any orders.
+select * from tbl_Employees where Emp_Id not in(select customerid from tbl_orders)
+
+
+-- 17. Calculate the total revenue generated by each product.
+select P.product_name, sum(P.UnitPrice * OD.Quantity) As total
+from tbl_Products as P
+inner join tbl_OrderDetails as OD
+on P.Product_ID = OD.ProductID
+group by P.product_name
+
+
+-- 18. Find the products that have been ordered more than 100 times.
+select P.Product_Name from tbl_Products as P
+inner join
+tbl_OrderDetails as OD
+on P.Product_ID = OD.ProductID
+group by P.Product_Name
+having count(od.ProductID) >= 100
+
+
+-- 19. List the employees who have placed orders on weekends (Saturday or Sunday).
+select first_name, last_name from tbl_Employees as E
+inner join tbl_orders as O
+on E.Emp_Id = O.CustomerId
+where datename(dw, OrderDate) = 'Saturday' or datename(dw, OrderDate) = 'Sunday'
+
+
+-- 20. Retrieve the product that has the highest total revenue.
+select top(1) OD.OrderId, P.Product_Name, OD.Quantity * P.UnitPrice as revenue
+from tbl_Products as P
+inner join
+tbl_OrderDetails as OD
+on OD.ProductID = P.Product_ID
+order by revenue desc
