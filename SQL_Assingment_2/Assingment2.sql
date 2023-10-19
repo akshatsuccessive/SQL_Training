@@ -134,7 +134,7 @@ where CONCAT(S.FirstName, ' ', S.LastName) = D.DepartmentName
 
 
 -- 7. Find the department with the highest average number of students enrolled per course.
-select top(1) D.DepartmentName, avg(total_student) as average_student_per_department
+select top(1) D.DepartmentName, avg(total_student) as average_student
 from (
 	select C.DepartmentId, C.CourseId, count(C.CourseId) as total_student
 	from tbl_enrollments as E
@@ -143,7 +143,7 @@ from (
 )as subquerry                                                 -- subquery will give us the count of enrolled student per course of a department
 inner join tbl_departments as D on D.DepartmentId = subquerry.DepartmentId
 group by D.DepartmentName
-order by average_student_per_department desc
+order by average_student desc
 
 
 
@@ -164,7 +164,7 @@ group by D.DepartmentName, C.CourseName
 
 
 -- 10. Calculate the total number of students in the "Engineering" department who have enrolled in more courses than the average number of courses per student in that department.
-select top(1) D.DepartmentName, avg(total_student) as average_student_per_department
+select top(1) D.DepartmentName, avg(total_student) as average_student
 from (
 	select C.DepartmentId, C.CourseId, count(C.CourseId) as total_student
 	from tbl_enrollments as E
@@ -174,7 +174,7 @@ from (
 inner join tbl_departments as D on D.DepartmentId = subquerry.DepartmentId
 where D.DepartmentName like '%Engineering'
 group by D.DepartmentName
-order by average_student_per_department desc
+order by average_student desc
 
 
 
