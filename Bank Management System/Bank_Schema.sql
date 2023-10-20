@@ -7,7 +7,9 @@ create table tbl_customers(
 	Age int,
 	Date_of_birth date,
 	Cust_Address varchar(100),
-	MobileNo bigint
+	MobileNo bigint,
+	BranchId int,
+	Foreign key (BranchId) references tbl_branch(BranchId)
 )
 
 create table tbl_employees(
@@ -17,7 +19,9 @@ create table tbl_employees(
 	Age int,
 	Date_of_birth date,
 	Emp_Address varchar(100),
-	MobileNo bigint
+	MobileNo bigint,
+	BranchId int,
+	Foreign key (BranchId) references tbl_branch(BranchId)
 )
 
 create table tbl_accounts(
@@ -51,4 +55,12 @@ create table tbl_Loan(
 	Ending_Date date,
 	CustomerId int,
 	Foreign key(CustomerId) references tbl_customers(CustomerId)
+)
+
+
+create table tbl_branch(
+	BranchId int identity(1,1) primary key,
+	BranchName varchar(50),
+	BranchAddress varchar(50),
+	MobileNo bigint
 )
