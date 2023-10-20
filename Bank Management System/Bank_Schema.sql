@@ -1,3 +1,4 @@
+create database DB_BANK
 use DB_BANK
 
 create table tbl_customers(
@@ -48,11 +49,12 @@ create table tbl_transactions(
 
 create table tbl_Loan(
 	LoanId int identity(1,1) primary key,
-	Amount int,
+	Loan_Amount int,
 	Interest_Rate float,
 	Time_In_Year int,
 	Starting_Date date,
 	Ending_Date date,
+	Loan_Type varchar(50),
 	CustomerId int,
 	Foreign key(CustomerId) references tbl_customers(CustomerId)
 )
@@ -62,5 +64,6 @@ create table tbl_branch(
 	BranchId int identity(1,1) primary key,
 	BranchName varchar(50),
 	BranchAddress varchar(50),
+	IFSC bigint,
 	MobileNo bigint
 )
