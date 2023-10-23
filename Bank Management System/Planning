@@ -1,0 +1,27 @@
+Entities & Attributes List
+
+1. Customers (CustomerId, FirstName, LastName, Age, Date_of_birth, Address, MobileNo, BranchId)
+2. Employees (EmployeeId, FirstName, LastName, Age, Date_of_birth, Address, MobileNo, BranchId)
+3. Accounts (Account_Number, Account_Type, Balance, Date_of_opening, Account_status, CustomerId)
+4. Transactions (TransactionId, TransactionType, Amount, TransactionDate, Sender_Acc_Number, Receiver_Acc_Number)
+5. Loan (LoanId, Loan_Amount, Interest_Rate, Time_In_Year, Starting_Date, Ending_Date, Loan_Type, CustomerId)
+6. Branch (BranchId, BranchName, BranchAddress, IFSC, MobileNo)
+
+
+Relationship between Entities
+
+1. Branch - Customer (1 : N)
+All customers are associated within a single branch so there is one to many type of relationship between branch and customer.
+
+2. Branch - Employee(1 : N)
+All customers work at a branch of the same bank, so every branch can have many employees.
+
+3. Customer - Accounts(1 : 1)
+One customer can have only one account in a branch.
+
+4. Accounts - Transactions(1 : N)
+One account can make more than one transaction.
+
+5. Accounts - Loan(1 : N)
+One account can apply for more than one Loan.
+
